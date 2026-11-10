@@ -1,0 +1,4 @@
+Alternative,Final Score,NLP Relevance,Risk Count,Risk Level
+Azure,6.07,2.87,0,No flagged risks
+AWS,5.99,4.88,1,Low
+Google Cloud,5.98,3.2,0,No flagged risks
