@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bus Management</title>
+<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="nav-logo-container">
+        <a href="admin-dashboard.html">
+            <img src="nav-logo.png" class="nav-logo-img">
+        </a>
+    </div>
+
+    <nav class="nav-links">
+              <a href="admin.html">Dashboard</a>
+        <a href="BusManegment.html" class="active">Buses</a>
+        <a href="Schedule Management.html">Schedules</a>
+        <a href="UserMangemnt.html" >Users</a>
+    </nav>
+
+  <div class="logout-container">
+        <button class="btn btn-secondary logout-btn">Logout</button>
+    </div>
+</header>
+
+<div class="admin-container">
+
+<!-- FORM -->
+<div class="card">
+<h2>Bus Management</h2>
+
+<form id="busForm">
+
+<div class="form-group">
+<label>Bus Number</label>
+<input type="number" id="busNumber" required>
+<small style="color:gray;">Bus number cannot be changed after edit</small
+</div>
+
+<div class="form-group">
+<label>Driver Name</label>
+<input type="text" id="driverName" required>
+</div>
+
+<div class="form-group">
+<label>Capacity</label>
+<input type="number" id="capacity" required>
+</div>
+
+<div class="form-group">
+<label>Status</label>
+<select id="status">
+<option value="Active">Active</option>
+<option value="Maintenance">Maintenance</option>
+<option value="Inactive">Inactive</option>
+</select>
+</div>
+
+<button class="btn btn-primary">Save Bus</button>
+
+</form>
+</div>
+
+<!-- TABLE -->
+<div class="card">
+<h2>Bus List</h2>
+
+<table class="bus-table">
+<thead>
+<tr>
+<th>Bus</th>
+<th>Driver</th>
+<th>Capacity</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="busTable"></tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+
+// ================= DATA =================
+let buses = JSON.parse(localStorage.getItem("buses")) || [];
+let editId = null;
+
+// ================= SAVE =================
+function save(){
+    localStorage.setItem("buses", JSON.stringify(buses));
+}
+
+// ================= RENDER =================
+function renderBuses(){
+    const table = document.getElementById("busTable");
+    table.innerHTML = "";
+
+    buses.forEach(bus=>{
+        table.innerHTML += `
+        <tr>
+            <td>${bus.number}</td>
+            <td>${bus.driver}</td>
+            <td>${bus.capacity}</td>
+            <td>${bus.status || "Active"}</td>
+            <td>
+                <button class="btn btn-secondary" onclick="editBus(${bus.id})">Edit</button>
+                <button class="btn btn-danger" onclick="toggleStatus(${bus.id})">
+                    ${bus.status === "Inactive" ? "Activate" : "Deactivate"}
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+}
+
+// ================= ADD / EDIT =================
+document.getElementById("busForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const number = document.getElementById("busNumber").value.trim();
+    const driver = document.getElementById("driverName").value.trim();
+    const capacity = document.getElementById("capacity").value;
+    const status = document.getElementById("status").value;
+
+    // numbers only
+    if (!/^\d+$/.test(number)) {
+        alert("Bus number must be numbers only");
+        return;
+    }
+
+    // capacity validation
+    if (capacity <= 0) {
+        alert("Capacity must be greater than 0");
+        return;
+    }
+
+    // ===== EDIT MODE =====
+    if(editId){
+        buses = buses.map(b =>
+            b.id === editId
+            ? { ...b, driver, capacity, status }
+            : b
+        );
+        editId = null;
+    }
+
+    // ===== ADD MODE =====
+    else{
+        // prevent duplicate
+        if (buses.some(b => b.number === number)) {
+            alert("Bus number already exists!");
+            return;
+        }
+
+        buses.push({
+            id: Date.now(),
+            number,
+            driver,
+            capacity,
+            status
+        });
+		showRSToast("Bus added successfully");
+    }
+
+    save();
+    renderBuses();
+    this.reset();
+});
+
+// ================= EDIT =================
+function editBus(id){
+     const bus = buses.find(b => b.id === id);
+
+    document.getElementById("busNumber").value = bus.number;
+    document.getElementById("busNumber").disabled = true; 
+
+    document.getElementById("driverName").value = bus.driver;
+    document.getElementById("capacity").value = bus.capacity;
+    document.getElementById("status").value = bus.status;
+
+    editId = id;
+	
+}
+
+// ================= STATUS =================
+function toggleStatus(id){
+    buses = buses.map(b =>
+        b.id === id
+        ? { ...b, status: b.status === "Inactive" ? "Active" : "Inactive" }
+        : b
+    );
+
+    save();
+    renderBuses();
+	showRSToast("Bus status updated");
+}
+
+// ================= INIT =================
+renderBuses();
+
+// ================= LOGOUT =================
+document.querySelectorAll('.logout-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        alert("Logged out successfully");
+        window.location.href = "login.html";
+    });
+});
+function showRSToast(message) {
+    const toast = document.getElementById("rs-toast");
+    const text = document.getElementById("rs-toast-text");
+
+    text.textContent = message;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+</script>
+<div class="rs-toast" id="rs-toast">
+  <span class="rs-toast-icon">✓</span>
+  <span id="rs-toast-text">Done</span>
+</div>
+</body>
+</html>

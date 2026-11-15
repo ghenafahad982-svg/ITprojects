@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schedule Management</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* ===== DAYS STYLE ===== */
+.days button {
+    padding: 10px 14px;
+    margin: 4px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.days button:hover {
+    background-color: #e0e0e0;
+}
+
+.days button.active {
+    background-color: #4a90e2;
+    color: white;
+    transform: scale(1.1);
+    font-weight: bold;
+}
+
+.days.disabled button {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ===== DELETE BUTTON ===== */
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="nav-logo-container">
+        <a href="admin-dashboard.html">
+            <img src="nav-logo.png" class="nav-logo-img">
+        </a>
+    </div>
+    
+    <nav class="nav-links">
+        <a href="admin.html">Dashboard</a>
+        <a href="BusManegment.html">Buses</a>
+        <a href="Schedule Management.html" class="active">Schedules</a>
+        <a href="UserMangemnt.html">Users</a>
+    </nav>
+
+    <div class="logout-container">
+        <button class="btn btn-secondary logout-btn">Logout</button>
+    </div>
+</header>
+
+<div class="admin-container">
+
+<div class="card">
+<h2>Create Schedule</h2>
+
+<form id="scheduleForm">
+
+<div class="form-group">
+<label>Route</label>
+<select id="route" required>
+<option value="">Select Route</option>
+<option>Al Waha Metro Station→ Colleges</option>
+<option>Colleges → Al Waha Metro Station</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Bus</label>
+<select id="busSelect" required></select>
+</div>
+
+<div class="form-group">
+<label>Schedule Type</label>
+<select id="type">
+<option>Daily</option>
+<option>Weekly</option>
+<option>Monthly</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Date</label>
+<input type="date" id="date" required>
+</div>
+
+<div class="form-group">
+<label>Days</label>
+<div class="days">
+<button type="button" onclick="toggleDay(this)">Sun</button>
+<button type="button" onclick="toggleDay(this)">Mon</button>
+<button type="button" onclick="toggleDay(this)">Tue</button>
+<button type="button" onclick="toggleDay(this)">Wed</button>
+<button type="button" onclick="toggleDay(this)">Thu</button>
+</div>
+</div>
+
+<div class="form-group">
+<label>Arrival Times</label>
+
+<div id="timesContainer">
+<input type="time" class="timeInput" required>
+</div>
+
+<button type="button" class="btn add-time" onclick="addTime()">+ Add Time</button>
+</div>
+
+<button class="btn btn-primary">Save Schedule</button>
+
+</form>
+</div>
+
+<div class="card">
+<h2>Schedule List</h2>
+
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Bus</th>
+<th>Type</th>
+<th>Days</th>
+<th>Times</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="scheduleTable"></tbody>
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+// ===== DATA =====
+let buses = JSON.parse(localStorage.getItem("buses")) || [];
+let schedules = JSON.parse(localStorage.getItem("schedules")) || [];
+
+function save(){
+localStorage.setItem("schedules", JSON.stringify(schedules));
+}
+
+// ===== ELEMENTS =====
+const scheduleForm = document.getElementById("scheduleForm");
+const timesContainer = document.getElementById("timesContainer");
+const route = document.getElementById("route");
+const busSelect = document.getElementById("busSelect");
+const type = document.getElementById("type");
+const date = document.getElementById("date");
+const scheduleTable = document.getElementById("scheduleTable");
+const daysContainer = document.querySelector(".days");
+
+// ===== LOAD BUSES =====
+function loadBuses(){
+busSelect.innerHTML = "<option value=''>Select Bus</option>";
+
+buses.filter(b=>b.status==="Active").forEach(bus=>{
+busSelect.innerHTML += `
+<option value="${bus.number}">
+${bus.number} (${bus.capacity} seats)
+</option>`;
+});
+}
+
+// ===== ADD TIME =====
+function addTime(){
+const div = document.createElement("div");
+div.innerHTML = `<input type="time" class="timeInput">`;
+timesContainer.appendChild(div);
+}
+
+// ===== DAYS =====
+let selectedDays = [];
+
+function toggleDay(btn){
+
+if(type.value === "Daily") return;
+
+btn.classList.toggle("active");
+
+const day = btn.innerText.trim();
+
+if(selectedDays.includes(day)){
+selectedDays = selectedDays.filter(d=>d!==day);
+}else{
+selectedDays.push(day);
+}
+}
+
+// ===== TYPE CHANGE =====
+type.addEventListener("change", () => {
+
+if(type.value === "Daily"){
+daysContainer.classList.add("disabled");
+selectedDays = [];
+document.querySelectorAll(".days button").forEach(btn=>btn.classList.remove("active"));
+}else{
+daysContainer.classList.remove("disabled");
+}
+
+});
+
+// ===== ADD SCHEDULE =====
+scheduleForm.addEventListener("submit", e=>{
+e.preventDefault();
+
+const times = [...document.querySelectorAll(".timeInput")]
+.map(t=>t.value)
+.filter(v=>v);
+
+// required days
+if(type.value !== "Daily" && selectedDays.length === 0){
+alert("Please select at least one day");
+return;
+}
+
+schedules.push({
+id: Date.now(),
+route: route.value,
+bus: busSelect.value,
+type: type.value,
+date: date.value,
+days: [...selectedDays],
+times: times
+
+});
+
+save();
+render();
+
+// reset
+scheduleForm.reset();
+timesContainer.innerHTML = `<input type="time" class="timeInput">`;
+selectedDays = [];
+document.querySelectorAll(".days button").forEach(btn=>btn.classList.remove("active"));
+daysContainer.classList.remove("disabled");
+showRSToast("Schedule created successfully");
+});
+
+// ===== RENDER =====
+function render(){
+scheduleTable.innerHTML="";
+
+schedules.forEach(s=>{
+scheduleTable.innerHTML += `
+<tr>
+<td>${s.route}</td>
+<td>${s.bus}</td>
+<td>${s.type}</td>
+<td>${s.days.join(", ") || "-"}</td>
+<td>${s.times.join(", ")}</td>
+<td>
+<button class="btn-danger" onclick="deleteSchedule(${s.id})">Delete</button>
+</td>
+</tr>`;
+});
+}
+
+// ===== DELETE =====
+function deleteSchedule(id){
+
+const confirmDelete = confirm("Are you sure you want to delete?");
+
+if(confirmDelete){
+schedules = schedules.filter(s=>s.id!==id);
+save();
+render();
+showRSToast("Schedule deleted successfully");
+}
+
+}
+
+// ===== LOGOUT =====
+document.querySelectorAll('.logout-btn').forEach(btn=>{
+btn.addEventListener('click', ()=>{
+alert("Logged out successfully");
+window.location.href="login.html";
+});
+});
+
+// INIT
+loadBuses();
+render();
+function showRSToast(message) {
+    const toast = document.getElementById("rs-toast");
+    const text = document.getElementById("rs-toast-text");
+
+    text.textContent = message;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+</script>
+<div class="rs-toast" id="rs-toast">
+  <span class="rs-toast-icon">✓</span>
+  <span id="rs-toast-text">Done</span>
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSU Subul - Home & Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-logo-container">
+            <a href="student-home.html">
+                <img src="nav-logo.png" alt="KSU Subul Logo" class="nav-logo-img">
+            </a>
+        </div>
+        
+        <nav class="nav-links">
+            <a href="student-home.html" class="active">Home</a>
+            <a href="my_reservations.html">My Reservations</a>
+            <a href="manage_recurring.html">Manage Recurring Schedule</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+
+        <div class="logout-container">
+            <button id="logoutBtn" class="btn btn-secondary logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <main class="app-container-student">
+        
+        <section class="search-section">
+            <h2>Find Your Bus</h2>
+            <div class="form-group search-box-container">
+                <label for="destinationSelect">Destination</label>
+                <select id="destinationSelect" required>
+                    <option value="" disabled selected>Select destination...</option>
+                    <option value="Colleges/Buildings">Colleges/Buildings</option>
+                    <option value="King Salman Oasis Station">King Salman Oasis Station</option>
+                </select>
+                
+                <button id="searchBtn" class="btn btn-primary mt-3 disabled" disabled>Search Trips</button>
+            </div>
+        </section>
+
+        <section id="resultsSection" class="results-section hidden">
+            <h3>Available Trips</h3>
+            <div id="busList" class="bus-list-container">
+            </div>
+        </section>
+
+    </main>
+
+    <div id="reservationModal" class="modal"style="display: none;">
+        <div class="modal-content">
+            <h3 style="color: var(--primary-blue); margin-bottom: 15px;">Confirm Reservation</h3>
+            
+            <div id="tripDetails" class="trip-details-box">
+            </div>
+            
+            <p class="edit-note" style="color: var(--error-red); font-size: 0.875rem; font-weight: bold; margin: 15px 0;">
+                You can edit this reservation within the next 2 minutes. in the "My Reservations" page
+            </p>
+            
+            <div class="tooltip-container">
+                <span class="help-text">How do I get to my college? <span class="help-icon">?</span></span>
+                <div class="tooltip-box">
+                    If you are in the humanities colleges, the stop is 509.<br>
+                    If you are in the science colleges, the stop is 510.
+                </div>
+            </div>
+
+            <div class="modal-actions" style="display: flex; gap: 10px; margin-top: 20px;">
+                <button id="confirmBtn" class="btn btn-primary">Confirm</button>
+                <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="student-home.js"></script>
+</body>
+</html>

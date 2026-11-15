@@ -1,0 +1,229 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title>User Management</title>
+<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <div class="nav-logo-container">
+        <a href="admin-dashboard.html">
+            <img src="nav-logo.png" class="nav-logo-img">
+        </a>
+    </div>
+    
+    <nav class="nav-links">
+       <a href="admin.html">Dashboard</a>
+        <a href="BusManegment.html">Buses</a>
+        <a href="Schedule Management.html">Schedules</a>
+        <a href="UserMangemnt.html"  class="active">Users</a>
+    </nav>
+
+   
+    <div class="logout-container">
+        <button class="btn btn-secondary logout-btn">Logout</button>
+    </div>
+</header>
+
+<!-- CONTAINER -->
+<div class="admin-container">
+
+<!-- FORM -->
+<div class="card">
+<h2>User Management</h2>
+
+<form id="userForm">
+
+<div class="form-group">
+<label>Name</label>
+<input type="text" id="name" required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="email" required>
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<input type="password" id="password" required>
+</div>
+
+<div class="form-group">
+<label>Phone</label>
+<input type="tel" id="phone" required>
+</div>
+
+<div class="form-group">
+<label>Role</label>
+<select id="role">
+<option>Student</option>
+<option>Admin</option>
+</select>
+</div>
+
+<button class="btn btn-primary">Add User</button>
+
+<p id="errorMsg" style="color:red; display:none;"></p>
+
+</form>
+</div>
+
+<!-- TABLE -->
+<div class="card">
+<h2>User List</h2>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Role</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="userTable"></tbody>
+
+</table>
+</div>
+
+</div>
+
+<script>
+
+// ================= DATA =================
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+// ================= SAVE =================
+function save(){
+localStorage.setItem("users", JSON.stringify(users));
+}
+
+// ================= ERROR =================
+function showError(msg){
+const err = document.getElementById("errorMsg");
+err.innerText = msg;
+err.style.display = "block";
+}
+
+// ================= RENDER =================
+function render(){
+userTable.innerHTML="";
+
+users.forEach(u=>{
+userTable.innerHTML += `
+<tr>
+<td>${u.name}</td>
+<td>${u.email}</td>
+<td>${u.phone}</td>
+<td>${u.role}</td>
+<td>${u.status}</td>
+<td>
+<button class="btn btn-secondary" onclick="toggleUser(${u.id})">
+${u.status==="Active"?"Deactivate":"Activate"}
+</button>
+</td>
+</tr>
+`;
+});
+}
+
+// ================= ADD USER =================
+userForm.addEventListener("submit", e => {
+    e.preventDefault();
+
+    const nameVal = document.getElementById("name").value.trim();
+    const emailVal = document.getElementById("email").value.trim();
+    const passwordVal = document.getElementById("password").value;
+    const phoneInput = document.getElementById("phone");
+    const phoneVal = phoneInput ? phoneInput.value.trim() : "";
+    const roleVal = document.getElementById("role").value;
+
+    function showError(msg){
+        alert(msg);
+        return false;
+    }
+
+    // Email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailVal)) {
+        return showError("Invalid Email Format");
+    }
+
+    // Password
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    if (!passwordRegex.test(passwordVal)) {
+        return showError("Weak Password (min 8 chars + uppercase + lowercase + number + special)");
+    }
+
+    // Phone
+    const phoneRegex = /^0\d{9}$/;
+    if (!phoneRegex.test(phoneVal)) {
+        return showError("Phone must start with 0 and be 10 digits");
+    }
+
+    users.push({
+        id: Date.now(),
+        name: nameVal,
+        email: emailVal,
+        password: passwordVal,
+        phone: phoneVal,
+        role: roleVal,
+        status: "Active"
+    });
+
+    save();
+    render();
+    userForm.reset();
+	showRSToast("User added successfully");
+});
+
+
+// ================= TOGGLE STATUS =================
+function toggleUser(id){
+users = users.map(u =>
+u.id===id ? {...u, status: u.status==="Active"?"Inactive":"Active"} : u
+);
+
+save();
+render();
+showRSToast("User status updated");
+}
+
+// ================= LOGOUT =================
+document.querySelectorAll('.logout-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        alert("Logged out successfully");
+        window.location.href = "login.html";
+    });
+});
+
+// INIT
+render();
+
+function showRSToast(message) {
+    const toast = document.getElementById("rs-toast");
+    const text = document.getElementById("rs-toast-text");
+
+    text.textContent = message;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
+</script>
+<div class="rs-toast" id="rs-toast">
+  <span class="rs-toast-icon">✓</span>
+  <span id="rs-toast-text">Done</span>
+</div>
+</body>
+</html>

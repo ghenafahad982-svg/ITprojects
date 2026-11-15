@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KSU Subul - My Reservations</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-logo-container">
+      <a href="student-home.html">
+        <img src="nav-logo.png" alt="KSU Subul Logo" class="nav-logo-img">
+      </a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="student-home.html">Home</a>
+      <a href="my_reservations.html" class="active">My Reservations</a>
+      <a href="booking.html">Manage Recurring Schedule</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+
+    <div class="logout-container">
+      <button id="logoutBtnProfile" class="btn btn-secondary logout-btn">Logout</button>
+    </div>
+  </header>
+
+  <main class="rs-page">
+    <h1 class="rs-title">My Upcoming Reservations</h1>
+
+    <section class="rs-list-wrap" id="rs-list">
+
+      <div class="rs-card">
+  <div class="rs-top-row">
+    <span class="rs-badge">Confirmed</span>
+  </div>
+
+  <div class="rs-main-row">
+    <div class="rs-info">
+      <h3>University City ➜ Olaya</h3>
+      <p>08:00 AM - Bus B-101</p>
+
+      <div class="rs-help-wrap">
+        <button type="button" class="rs-help-btn" onclick="toggleCollegeHelp(this)">
+          How do I get to my college? <span class="rs-help-icon">?</span>
+        </button>
+
+        <div class="rs-help-box">
+          If you are in the humanities colleges, the drop-off point is 509.<br>
+          If you are in the science colleges, the drop-off point is 510.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rs-bottom-row">
+    <div class="rs-actions">
+      <button type="button" class="rs-btn-icon rs-btn-delete" onclick="openCancelModal(this)">🗑</button>
+      <button type="button" class="rs-btn-icon rs-btn-edit" onclick="openEditModal(this)">✎</button>
+    </div>
+
+    <div class="rs-edit-time">
+      <span class="rs-timer" data-seconds="88">Time left to edit: 1:28</span>
+      <span class="rs-mini-clock">◔</span>
+    </div>
+  </div>
+</div>
+
+      <div class="rs-card">
+  <div class="rs-top-row">
+    <span class="rs-badge">Confirmed</span>
+  </div>
+
+  <div class="rs-main-row">
+    <div class="rs-info">
+      <h3>University City ➜ Olaya</h3>
+      <p>10:00 AM - Bus B-205</p>
+
+      <div class="rs-help-wrap">
+        <button type="button" class="rs-help-btn" onclick="toggleCollegeHelp(this)">
+          How do I get to my college? <span class="rs-help-icon">?</span>
+        </button>
+
+        <div class="rs-help-box">
+          If you are in the humanities colleges, the drop-off point is 509.<br>
+          If you are in the science colleges, the drop-off point is 510.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rs-bottom-row">
+    <div class="rs-actions">
+      <button type="button" class="rs-btn-icon rs-btn-delete" onclick="openCancelModal(this)">🗑</button>
+      <button type="button" class="rs-btn-icon rs-btn-edit" onclick="openEditModal(this)">✎</button>
+    </div>
+
+    <div class="rs-edit-time">
+      <span class="rs-timer" data-seconds="55">Time left to edit: 0:55</span>
+      <span class="rs-mini-clock">◔</span>
+    </div>
+  </div>
+</div>
+
+    </section>
+  </main>
+
+  
+
+  <div class="rs-overlay" id="rs-edit-overlay">
+    <div class="rs-modal">
+      <div class="rs-modal-head">
+        <button type="button" class="rs-close-btn" onclick="closeEditModal()">×</button>
+        <h2>Edit Reservation Time</h2>
+      </div>
+
+      <div class="rs-modal-body">
+        <label class="rs-label" for="rs-time-select">Available Alternative Time:</label>
+
+        <select id="rs-time-select" class="rs-select">
+          <option>Next Trip: 02:00 PM</option>
+          <option>Evening Trip: 04:00 PM</option>
+        </select>
+
+        <button type="button" class="btn btn-primary rs-save-edit-btn" onclick="saveReservationEdit()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="rs-overlay" id="rs-cancel-overlay">
+    <div class="rs-modal rs-modal-small">
+      <div class="rs-modal-head">
+        <button type="button" class="rs-close-btn" onclick="closeCancelModal()">×</button>
+        <h2>Cancel Reservation</h2>
+      </div>
+
+      <div class="rs-modal-body">
+        <p class="rs-cancel-text">
+          Are you sure you want to cancel this reservation? This action cannot be undone.
+        </p>
+
+        <div class="rs-cancel-actions">
+          <button type="button" class="rs-confirm-cancel-btn" id="rs-confirm-cancel-btn">Yes, Cancel Reservation</button>
+          <button type="button" class="rs-back-btn" onclick="closeCancelModal()">Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rs-toast" id="rs-toast">
+    <span class="rs-toast-icon">✓</span>
+    <span id="rs-toast-text">Reservation updated successfully</span>
+  </div>
+
+  <script src="sheet.js"></script>
+    <script src="student-home.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - KSU Subul</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .tabs-container {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-subtle);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 0.9375rem;
+            background: none;
+            border: none;
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #888;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px; 
+            transition: 0.3s;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .tab-btn.active {
+            color: var(--primary-blue);
+            border-bottom: 3px solid var(--primary-blue);
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    </style>
+</head>
+<body> 
+
+    <div class="app-container">
+        
+        <div style="text-align: center; margin-bottom: 1.875rem;">
+            <h1 style="color: var(--primary-blue);">Welcome Back</h1>
+            <p>Log in to access your dashboard.</p>
+        </div>
+
+        <div class="tabs-container">
+            <button id="tab-student" class="tab-btn active" onclick="switchTab('student')">Student</button>
+            <button id="tab-admin" class="tab-btn" onclick="switchTab('admin')">Admin</button>
+        </div>
+
+        <div id="student-section" class="tab-content active">
+            <form id="student-login-form">
+                <div class="form-group">
+                    <label for="student-email">Email Address</label>
+                    <input type="email" id="student-email" placeholder="e.g., name@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-password">Password</label>
+                    <input type="password" id="student-password" placeholder="Enter your password" required>
+                </div>
+                
+                <div style="text-align: right; margin-bottom: 1rem; margin-top: -10px;">
+                    <a href="#" id="forgot-password-link" style="color: var(--primary-blue); font-size: 0.875rem; text-decoration: none;">Forgot Password?</a>
+                </div>
+
+                <p id="student-error" class="error-message"></p>
+                <button type="submit" class="btn-primary btn">Log In</button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 1.25rem;">
+                <p style="font-size: 0.875rem;">Don't have an account? <a href="register.html" style="color: var(--primary-blue); font-weight: bold;">Sign Up</a></p>
+            </div>
+        </div>
+
+        <div id="admin-section" class="tab-content">
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label for="admin-email">Admin Email</label>
+                    <input type="email" id="admin-email" placeholder="e.g., admin@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" placeholder="Enter admin password" required>
+                </div>
+                
+                <p id="admin-error" class="error-message"></p>
+                <button type="submit" id="admin-btn" class="btn-primary btn">Admin Log In</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="forgot-password-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 style="color: var(--primary-blue); margin-bottom: 1rem;">Reset Password</h3>
+            <p style="font-size: 0.9rem; color: #555; margin-bottom: 1.5rem;">Enter your email address and we will send you a link to reset your password.</p>
+            
+            <form id="forgot-password-form">
+                <div class="form-group" style="text-align: left;">
+                    <input type="email" id="reset-email" placeholder="e.g., name@gmail.com" required style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+                </div>
+                <button type="submit" class="btn-primary btn" style="width: 100%; margin-top: 10px;">Send Reset Link</button>
+                <button type="button"  id="close-modal-btn" style="margin-top: 1rem; background: none; border: none; color: #888; cursor: pointer; text-decoration: underline; font-size: 0.9rem;">Cancel</button>
+            </form>
+            
+            <p id="reset-message" style="display: none; margin-top: 1rem; font-size: 0.9rem;"></p>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

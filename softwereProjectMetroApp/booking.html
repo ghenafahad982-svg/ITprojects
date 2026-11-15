@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KSU Subul - Manage Recurring Schedule</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-logo-container">
+      <a href="student-home.html">
+        <img src="nav-logo.png" alt="KSU Subul Logo" class="nav-logo-img">
+      </a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="student-home.html">Home</a>
+      <a href="my_reservations.html">My Reservations</a>
+      <a href="booking.html" class="active">Manage Recurring Schedule</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+
+    <div class="logout-container">
+ <button id="logoutBtnProfile" class="btn btn-secondary logout-btn">Logout</button>
+    </div>
+    
+  </header>
+
+  <main class="bk-page">
+    <h1 class="bk-title">Manage Recurring Schedule</h1>
+
+    <section class="bk-panel">
+      <div class="bk-panel-head">
+        <h2>Add New Schedule</h2>
+      </div>
+
+      <div class="bk-trip-box">
+        <p class="bk-trip-label">Trip Type</p>
+
+        <label class="bk-radio">
+          <input type="radio" name="tripType" value="Go">
+          <span>Go</span>
+        </label>
+
+        <label class="bk-radio">
+          <input type="radio" name="tripType" value="Return">
+          <span>Return</span>
+        </label>
+
+        <label class="bk-radio">
+          <input type="radio" name="tripType" value="Go and Return" checked>
+          <span>Go and Return</span>
+        </label>
+      </div>
+
+      <h3 class="bk-subtitle">Build the Weekly Base Schedule</h3>
+
+      <div class="bk-days">
+
+        <div class="bk-day-card bk-active">
+          <div class="bk-day-top">
+            <div class="bk-day-name">Sunday</div>
+            <label class="bk-check-wrap">
+              <input type="checkbox" class="bk-day-check" checked>
+              <span class="bk-check-box"></span>
+            </label>
+          </div>
+
+          <div class="bk-day-body">
+            <div class="bk-time-grid">
+              <div class="bk-time-field">
+                <label>Departure Time</label>
+                <div class="bk-time-input-wrap">
+                  <input type="time" value="08:00" class="bk-go-time">
+                
+                </div>
+              </div>
+
+              <div class="bk-time-field">
+                <label>Return Time</label>
+                <div class="bk-time-input-wrap">
+                  <input type="time" value="14:00" class="bk-return-time">
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bk-day-card">
+          <div class="bk-day-top">
+            <div class="bk-day-name">Monday</div>
+            <label class="bk-check-wrap">
+              <input type="checkbox" class="bk-day-check">
+              <span class="bk-check-box"></span>
+            </label>
+          </div>
+
+          <div class="bk-day-body">
+            <div class="bk-time-grid">
+              <div class="bk-time-field">
+                <label>Departure Time</label>
+                <div class="bk-time-input-wrap">
+                  <input type="time" value="08:00" class="bk-go-time">
+                
+                </div>
+              </div>
+
+              <div class="bk-time-field">
+                <label>Return Time</label>
+                <div class="bk-time-input-wrap">
+                  <input type="time" value="14:00" class="bk-return-time">
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bk-day-card">
+          <div class="bk-day-top">
+            <div class="bk-day-name">Tuesday</div>
+            <label class="bk-check-wrap">
+              <input type="checkbox" class="bk-day-check">
+              <span class="bk-check-box"></span>
+            </label>
+          </div>
+
+          <div class="bk-day-body">
+            <div class="bk-time-grid">
+              <div class="bk-time-field">
+                <label>Departure Time</label>
+                <div class="bk-time-input-wrap">
+                  <input type="time" value="08:00" class="bk-go-time">
+               
+                </div>
+              </div>
+
+              <div class="bk-time-field">
+                <label>Return Time</label>
+                <div class="bk-time-input-wrap">
+                  <input type="time" value="14:00" class="bk-return-time">
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bk-day-card">
+          <div class="bk-day-top">
+            <div class="bk-day-name">Wednesday</div>
+            <label class="bk-check-wrap">
+              <input type="checkbox" class="bk-day-check">
+              <span class="bk-check-box"></span>
+            </label>
+          </div>
+
+          <div class="bk-day-body">
+            <div class="bk-time-grid">
+              <div class="bk-time-field">
+                <label>Departure Time</label>
+                <div class="bk-time-input-wrap">
+                  <input type="time" value="08:00" class="bk-go-time">
+                 
+                </div>
+              </div>
+
+              <div class="bk-time-field">
+                <label>Return Time</label>
+                <div class="bk-time-input-wrap">
+                  <input type="time" value="14:00" class="bk-return-time">
+                >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bk-day-card">
+          <div class="bk-day-top">
+            <div class="bk-day-name">Thursday</div>
+            <label class="bk-check-wrap">
+              <input type="checkbox" class="bk-day-check">
+              <span class="bk-check-box"></span>
+            </label>
+          </div>
+
+          <div class="bk-day-body">
+            <div class="bk-time-grid">
+              <div class="bk-time-field">
+                <label>Departure Time</label>
+                <div class="bk-time-input-wrap">
+                  <input type="time" value="08:00" class="bk-go-time">
+                 
+                </div>
+              </div>
+
+              <div class="bk-time-field">
+                <label>Return Time</label>
+                <div class="bk-time-input-wrap">
+                  <input type="time" value="14:00" class="bk-return-time">
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="bk-repeat-box">
+        <label for="bk-repeat">Repeat Duration</label>
+        <select id="bk-repeat">
+          <option>1 Week</option>
+          <option>1 Month</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary bk-save-btn" id="bk-save-btn">Save and Activate Schedule</button>
+    </section>
+
+    <section class="bk-active-panel">
+      <h2 class="bk-active-title">Active Schedules</h2>
+
+      <div id="bk-active-list">
+        <div class="bk-active-card">
+          <button class="bk-delete-btn" onclick="bkDeleteSchedule(this)">🗑</button>
+          <div class="bk-active-info">
+            <h3>Colleges ➜ Al Waha Station</h3>
+            <p>Sunday (2:00 PM) - Go and Return</p>
+            <span class="bk-status-pill">Active - 1 Week</span>
+          </div>
+        </div>
+
+        <div class="bk-active-card">
+          <button class="bk-delete-btn" onclick="bkDeleteSchedule(this)">🗑</button>
+          <div class="bk-active-info">
+            <h3>Colleges ➜ Al Waha Station</h3>
+            <p>Monday (8:00 AM) - Go</p>
+            <span class="bk-status-pill">Active - 1 Week</span>
+          </div>
+        </div>
+
+        <div class="bk-active-card">
+          <button class="bk-delete-btn" onclick="bkDeleteSchedule(this)">🗑</button>
+          <div class="bk-active-info">
+            <h3>Colleges ➜ Al Waha Station</h3>
+            <p>Thursday (2:00 PM) - Return</p>
+            <span class="bk-status-pill">Active - 1 Month</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  
+
+  <div class="bk-toast" id="bk-toast">
+    <span class="bk-toast-icon">✓</span>
+   
+  </div>
+
+  <script src="sheet.js"></script>
+   <script src="student-home.js"></script>
+</body>
+</html>

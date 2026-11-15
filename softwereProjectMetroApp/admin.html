@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KSU Subul - Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-logo-container">
+      <a href="admin.html">
+        <img src="nav-logo.png" alt="KSU Subul Logo" class="nav-logo-img">
+      </a>
+    </div>
+
+   
+    <nav class="nav-links">
+       <a href="admin.html">Dashboard</a>
+        <a href="BusManegment.html">Buses</a>
+        <a href="Schedule Management.html">Schedules</a>
+        <a href="UserMangemnt.html"  class="active">Users</a>
+    </nav>
+
+    <div class="logout-container">
+   <button id="logoutBtnProfile" class="btn btn-secondary logout-btn">Logout</button>
+    </div>
+  </header>
+
+  <main class="ad-page">
+    <h1 class="ad-title">Admin Dashboard</h1>
+
+    <section class="ad-cards-grid">
+  <a href="Schedule Management.html" class="ad-card-link">
+    <div class="ad-card">
+      <h3>Schedule Management</h3>
+     
+    </div>
+  </a>
+
+  <a href="BusManagement.html" class="ad-card-link">
+    <div class="ad-card ad-card-dark">
+      <h3>Bus Management</h3>
+   
+    </div>
+  </a>
+</section>
+
+   
+
+     <script src="student-home.js"></script>
+</body>
+</html>
